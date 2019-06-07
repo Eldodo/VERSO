@@ -1,0 +1,404 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.eclipse.fx.ide.l10n; singleton:=true
+Archiver-Version: Plexus Archiver
+Built-By: genie.efxclipse
+Require-Bundle: org.eclipse.xtext;visibility:=reexport,org.eclipse.xte
+ xt.xbase;resolution:=optional;visibility:=reexport,org.eclipse.xtext.
+ generator;resolution:=optional,org.apache.commons.logging;bundle-vers
+ ion="1.0.4";resolution:=optional,org.eclipse.emf.codegen.ecore;resolu
+ tion:=optional,org.eclipse.emf.mwe.utils;resolution:=optional,org.ecl
+ ipse.emf.mwe2.launch;resolution:=optional,org.eclipse.xtext.util,org.
+ eclipse.emf.ecore,org.eclipse.emf.common,org.eclipse.xtext.xbase.lib,
+ org.antlr.runtime,org.eclipse.xtext.common.types,org.objectweb.asm;bu
+ ndle-version="[5.0.1,6.0.0)";resolution:=optional,org.eclipse.equinox
+ .common;bundle-version="3.7.0"
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Eclipse-SourceReferences: scm:git:git://git.eclipse.org/gitroot/efxcli
+ pse/org.eclipse.efxclipse.git;path="bundles/tooling/org.eclipse.fx.id
+ e.l10n";commitId=b32c29957b6bf7720850f4eb6729e5cb4daeb22f
+Bundle-Vendor: Eclipse.org
+Import-Package: org.apache.log4j
+Export-Package: org.eclipse.fx.ide.l10n,org.eclipse.fx.ide.l10n.servic
+ es,org.eclipse.fx.ide.l10n.nLSDsl,org.eclipse.fx.ide.l10n.nLSDsl.impl
+ ,org.eclipse.fx.ide.l10n.nLSDsl.util,org.eclipse.fx.ide.l10n.serializ
+ er,org.eclipse.fx.ide.l10n.parser.antlr,org.eclipse.fx.ide.l10n.parse
+ r.antlr.internal,org.eclipse.fx.ide.l10n.validation,org.eclipse.fx.id
+ e.l10n.scoping,org.eclipse.fx.ide.l10n.generator,org.eclipse.fx.ide.l
+ 10n.formatting
+Bundle-Name: org.eclipse.fx.ide.l10n
+Bundle-Version: 3.0.0.201705220750
+Created-By: Apache Maven 3.0.5
+Build-Jdk: 1.8.0_121
+
+Name: plugin.xml
+SHA-256-Digest: rwZMWd2YvxtAV5rh7JinR2XokzMw6BIOsNwpE/LQmz4=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/RichStringLiteralInbetweenIm
+ pl.class
+SHA-256-Digest: Q4Klp9/yZIIex5CUyjMJfbowfxuEUYUJjT3C4nZnBKs=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$QualifiedNa
+ meElements.class
+SHA-256-Digest: BzVsLqXggOQ8vR6qikD7G6Lg4IF7LcSNXAn4WYVhVVI=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/RichStringLiteralInbetween.class
+SHA-256-Digest: s8z8Zj+MjiENr/78bHM4xc2VqAoyLKjWKlVfZzYqSaY=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$18.class
+SHA-256-Digest: kL6oa74LXSt1muzeZcfgM6l6G9dFdQz2/DImzmJzzwI=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/MessageEntry.class
+SHA-256-Digest: c3acXA5W68OK13Gc8oiF3emKkwPeOOE46k4PHMiNp7c=
+
+Name: org/eclipse/fx/ide/l10n/GenerateNLSDsl.mwe2
+SHA-256-Digest: jZ2blzjmW0FZV5ocrduXaxPDq2O6EpCnLM+HW0p+nkY=
+
+Name: org/eclipse/fx/ide/l10n/AbstractNLSDslRuntimeModule.class
+SHA-256-Digest: 0Wa0Eg5AldDGgnnSjALGrZ8aKUNlzfzRUjN3pMzoxHE=
+
+Name: org/eclipse/fx/ide/l10n/NLSDsl.xtext
+SHA-256-Digest: h5i/ouNG4WH+xgMh3CVwBlDpphRAJFYtF0MyIXS8a24=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$RichStringL
+ iteralStartElements.class
+SHA-256-Digest: k0COaobThXCieKg5dQPOcIc1dacGk+aLqWlmLvuDmPI=
+
+Name: model/generated/NLSDsl.genmodel
+SHA-256-Digest: WJJaZcrH1LD0Jeye079688j4fhvJ57adskiXyWmO2NY=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/MessageParam.class
+SHA-256-Digest: /DtRrz3yCcB7gRppxhRRTxt0Xo+ezLQnmqYF+Ypr0VQ=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$15.class
+SHA-256-Digest: Iv7dkZUcpuSggIPENnkNCZNz3xPLh+09grdtR7mi0Rg=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/RichStringLiteralEnd.class
+SHA-256-Digest: smyJPR+8ovTSTCpzaBbyd4BUA6gLBkUw3s1Sy8oyLcY=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$5.class
+SHA-256-Digest: l4a3PL7pmd1iykRT07jagQnFaOSQK8tOhUI2RxU21Kw=
+
+Name: org/eclipse/fx/ide/l10n/scoping/.NLSDslScopeProvider.java._trace
+SHA-256-Digest: tqP8o+WVSqe9xOyJ+cgOr/ZJyQ8yC/SQTjmkNguAE10=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$20.class
+SHA-256-Digest: p+rdkyDLPs3a8+PH14k0IhxHdPRSWWLTxvNt0TXLSwQ=
+
+Name: org/eclipse/fx/ide/l10n/parser/antlr/NLSDslAntlrTokenFileProvide
+ r.class
+SHA-256-Digest: k74cJj/jIbNd9Q7ecJ9/0oQsS4CFNypkxojQF2/b9VA=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$2$1.class
+SHA-256-Digest: YM0jf/zyqZ1j4xj6BQVQSc3lVSxEK5zisxYmy/4Z+JY=
+
+Name: org/eclipse/fx/ide/l10n/formatting/.NLSDslFormatter.java._trace
+SHA-256-Digest: H5EeoaQbbNT7HvwIzotiN4tY1uqXPJXRRlG8KEBBkBo=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/RichString.class
+SHA-256-Digest: nwLUcJhMURMTa58awVOhvx+jVF73t5I3TqoktNBrY6s=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$23.class
+SHA-256-Digest: o/aQhl6reOY2vX6iA0bCUS2wndoB9yTGLt8oV1gOnuo=
+
+Name: org/eclipse/fx/ide/l10n/validation/.NLSDslValidator.java._trace
+SHA-256-Digest: cZN3ngPAIE4Tv5QCfE6bPY1AdTMeJ/Tk/9RF9uhQE78=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$2.class
+SHA-256-Digest: Qe4wHBwJAOsrb4CNVyM2cGEfc/PYYCBHrvm4UFlOa0M=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$8.class
+SHA-256-Digest: XsKBRXrqJtTb7RnUnmihVaWiN4oHVQFwytvenlq+mV4=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$RichStringL
+ iteralInbetweenElements.class
+SHA-256-Digest: 8DXIQ/zTY/JaCUnHl63BHXHHBL7cOJs9uW7KB54Z67E=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/RichVarPart.class
+SHA-256-Digest: mGWkL41dEfeiaC1JlXTBHT2go9UCEo/+ZsP5ilC8BeY=
+
+Name: org/eclipse/fx/ide/l10n/serializer/NLSDslSemanticSequencer.class
+SHA-256-Digest: zNVWhVAWy9fK3s1bFlkTcqqzSfoTeyxaxsHYSCBfcgY=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/RichStringLiteralStartImpl.c
+ lass
+SHA-256-Digest: MozQUkbL9x9MN2H1PT2Ije/i/G2EhsjIoNtAK/uPudk=
+
+Name: org/eclipse/fx/ide/l10n/NLSDslRuntimeModule.class
+SHA-256-Digest: Zym8PFpGUrd8rLOyl/RsiArYx8ebG30o3wFb+ZvJmfY=
+
+Name: org/eclipse/fx/ide/l10n/serializer/NLSDslSyntacticSequencer.clas
+ s
+SHA-256-Digest: RvOyFgC33P7p3gAMCkHrVyUAxct/VuwS88gaDFdzHjU=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$NLSBundleEl
+ ements.class
+SHA-256-Digest: NjE4v75zAa8lT/U7oc89zPDu3Mqhp7DbL18dfJ9iAsg=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/PackageDeclaration.class
+SHA-256-Digest: RlfltpQ/C/sZz38zUx3TS1eFP7bK0szz4qWRYFuHjGg=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/RichStringLiteral.class
+SHA-256-Digest: 9T/zjNw88UqpFa1tQN55DRvt7aWgdgwk+CjB2+82KPs=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/NLSBundleImpl.class
+SHA-256-Digest: 1GqK4FzMmPdNquwgUe+5n+OIxi3rGPxua1TeNgPlPc0=
+
+Name: org/eclipse/fx/ide/l10n/generator/.NLSDslGenerator.java._trace
+SHA-256-Digest: 9DRcecropk6c+4kN+WakFqPpsSYu0UeFVMrZYfypieU=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/RichStringLiteralStart.class
+SHA-256-Digest: NSZRyHbskOCoi3s9Ec3OkzLObkEMTwMYmI2BAa9mcCo=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$2$2.class
+SHA-256-Digest: kwTexAwBxOpr+i71bMsYhqEpAnigRLxJtcubiKBr8WQ=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$RichVarPart
+ Elements.class
+SHA-256-Digest: fT04RY8GGyks9gH+rJ1Ha9bWZbDYU4zG5cfzHy8WCjI=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$12.class
+SHA-256-Digest: tAoF15IbRcYpt0NhqGSD2hcwREQ5bPGX7bEW5Ixt9xI=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator.class
+SHA-256-Digest: 98+szP85qSXIFN7Arkh0xrb1wJ2upgWuD4yoaYlvrTM=
+
+Name: org/eclipse/fx/ide/l10n/NLSDslStandaloneSetupGenerated.class
+SHA-256-Digest: yYIeJqllkpbwEKUawmnOv6nRvdMQ0m00GKfN6pMBBWk=
+
+Name: org/eclipse/fx/ide/l10n/scoping/NLSDslScopeProvider.xtend
+SHA-256-Digest: lFqBWpwD3WQkAhP9sV8r3upZZtavcml47MphKVQIOx4=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$6.class
+SHA-256-Digest: 9qX/FGJ/7aZR2hyK1Ls97tScaLIwXLejOWqVDdRg+iY=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$PredefinedT
+ ypesElements.class
+SHA-256-Digest: 1D2BVmoepArHClW7cMIAIzQU0Bdi281B0RKhu5yikDM=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess.class
+SHA-256-Digest: eRR19VYI6uk9E/cqFr54/dwOXtUnlMlPFRitjRojZZk=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/PredefinedTypes.class
+SHA-256-Digest: /UbtUm9AeAFbiLKLkEY/Hviv/+Lo/PhFbem7qkrbGfY=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/util/NLSDslAdapterFactory$1.class
+SHA-256-Digest: ISYObQBU1LWnMAqpdxgRILJ/OZVVtwEjykvsv18o7uc=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$25.class
+SHA-256-Digest: lzR1Kt5CpOFC5lZlbeFyOJq/u55fxq4EV9kDx132W2Y=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/NLSDslPackage.class
+SHA-256-Digest: XVJkSGQabDqUp1Hsck6KmdZ8l5PDOzvqMiBpR+1cUOA=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$13.class
+SHA-256-Digest: W6ppY0NMMSFOVgKD3S0+vvxN0+2dgDDjBqQfH64DAfs=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$RichStringL
+ iteralElements.class
+SHA-256-Digest: 1BcQu/e2Bk5WhsoZQjKnNnIdCb0/bIdDutprrq6/6Mw=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$19.class
+SHA-256-Digest: ObL0a5nkm9AYqj+4iZkbyXCxF72Qx7U+CYQ3tOMPFxM=
+
+Name: org/eclipse/fx/ide/l10n/parser/antlr/internal/InternalNLSDsl.tok
+ ens
+SHA-256-Digest: zIPQBE2ADlmUeQlBJ7bXgMgnVw0Pu2kJNoUcDXMqFOE=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$7.class
+SHA-256-Digest: ASunSvQKHQ1qm2xX8R694QZocvrpI1WCcHfkML0f5ik=
+
+Name: org/eclipse/fx/ide/l10n/scoping/NLSDslScopeProvider.class
+SHA-256-Digest: ZQ9YFei2kWJ68xDL5I1WZXpAr2LwIVVadOxBD8GXef0=
+
+Name: org/eclipse/fx/ide/l10n/validation/AbstractNLSDslValidator.class
+SHA-256-Digest: Nh9fW3inreSV6DrXoN7TBw5P4b3yOXwLOQVzmvnkleY=
+
+Name: org/eclipse/fx/ide/l10n/NLSDsl.xtextbin
+SHA-256-Digest: HGOZeXsCmYevQpj50qV36v6JzTVEs6XVoyWP80Wa460=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/RichVarPartImpl.class
+SHA-256-Digest: RynMJHSxvl9JjmoPMcyeK9Cfj0If1yndUPTy01h6pmU=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/NLS.class
+SHA-256-Digest: M6H8udjaVwxEEGww6CLAGGXg1odvXggSQ/4KdGOjL6o=
+
+Name: org/eclipse/fx/ide/l10n/parser/antlr/internal/InternalNLSDslLexe
+ r$DFA27.class
+SHA-256-Digest: y2DwX0bRII2A10NVMSy0Ua9H0IbvU1Y8xpA9xKm75ho=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$RichStringL
+ iteralEndElements.class
+SHA-256-Digest: O5hL+1c6ZfwZATwL/+RlZ+UrTIHLu4ESAa1R5+4sfVU=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$4.class
+SHA-256-Digest: mj24ckah4guWAbfGYFxPI561Vzr0TXeN0uTDoixhEBw=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/NLSImpl.class
+SHA-256-Digest: 59YU/lSYHf3ip0qu2PNLMu+muLfcA1WnPZHhYtc/R98=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/RichStringLiteralImpl.class
+SHA-256-Digest: L/zUEyu02wLGcSrIUToy+MvJv9aw0k7YqDMX0z7R5a4=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$14.class
+SHA-256-Digest: kH/we3yC7GB69yGySS0tfjs8kxQ/iW3tU7wvqCPsnpw=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$24.class
+SHA-256-Digest: 3eMO0txwZn3bUzeT2PdIrtd92WRb6F3RUVZVqV3YxMI=
+
+Name: org/eclipse/fx/ide/l10n/validation/NLSDslValidator.class
+SHA-256-Digest: q6WBhC5OGiTjnUZBR8kfRgLD1fqF22ajH6C18bMlCSY=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$MessageEntr
+ yElements.class
+SHA-256-Digest: nxdNqsr6YDIXPAOy9O0uReNEaUUC85jDuVClFs0v2Qw=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$MessageElem
+ ents.class
+SHA-256-Digest: YZsbBXPRS0c47hn5kJWnEP+Hsnd97w6LnFb92748VSo=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/RichStringLiteralEndImpl.cla
+ ss
+SHA-256-Digest: pMtUyvfree3MLBl/HNZRRoZehUCVvsKlujsJYrDHW/w=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/NLSDslFactoryImpl.class
+SHA-256-Digest: sjt/ufMk8wwgtrmv05SVzl6dY03RouTdY5QFcN8PCfg=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$ValidIDElem
+ ents.class
+SHA-256-Digest: wnLeVoEwgt2UxGVr7rA+yoPNFxY5KWn2n7AOf9IzOHQ=
+
+Name: model/generated/NLSDsl.ecore
+SHA-256-Digest: 4y3BJEW14A2F3cnKkyDkECnEYmWQQSRixaVDpaqSfBs=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$1.class
+SHA-256-Digest: 58r7z6VGleKUsWxlSLcTZAR7RpuNaiiWMNjqsAHMk0U=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$17.class
+SHA-256-Digest: uiaVEy0y+WREbZKCrkuL7uDPjaYuxFVygroPNi+y9ak=
+
+Name: org/eclipse/fx/ide/l10n/parser/antlr/internal/InternalNLSDslLexe
+ r.class
+SHA-256-Digest: TQh8uuUqrXxTOkvBchiThZ5+/zsjKi/FGo/BWAnmUXE=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator.xtend
+SHA-256-Digest: kxeKE4U9g0IdhkV/AI7mo92Z6L4Y8Hr88/1JLyIeLdw=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$PackageDecl
+ arationElements.class
+SHA-256-Digest: iFTXuMoN0tjAdYn9wRM3AsMEcjqn70gXrv6IeH8ktBw=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$24$1.class
+SHA-256-Digest: PKdD0rEasgZVLsDGr/UKMWlGQkznQIKGKCOGntKSsvI=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/NLSDslPackage$Literals.class
+SHA-256-Digest: Xgazl1OiVYrHS6vPv7bcsqMYPfDS2AYMsMMUGRECTAY=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/NLSDslFactory.class
+SHA-256-Digest: nCwKHTiUTU+9tFijjd/TM49gU9Yc7SFpZ7jP4k5ESdk=
+
+Name: org/eclipse/fx/ide/l10n/formatting/NLSDslFormatter.class
+SHA-256-Digest: PHTn9a6+QR+Ip9IRyoOQBUKZohrpqZEdMsYy6qt0ga4=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/util/NLSDslAdapterFactory.class
+SHA-256-Digest: EK91cncK0SPIIWoZliYTSkKM4sLeXSPvlloIJig8sL8=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/NLSDslPackageImpl.class
+SHA-256-Digest: GTVnHPcjQIfv7Gc1vjCH0Xz0V3KnO7eTMQCfqZIdJaA=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/MessageImpl.class
+SHA-256-Digest: Y8oh87C1+YENrJ7QqtgvrrHg0GU9O4olWHcvuVi0SMI=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$11.class
+SHA-256-Digest: utpdMGvHGAFMT+YSXsaLrsMMSpNvDbBAikcMYhyEPCU=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$16.class
+SHA-256-Digest: r0ZXeSuoJnZbAQfkAf/wj/PvPj+AgUEBisJLd7lT5+w=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$26.class
+SHA-256-Digest: lfJY8WlrNDRMNwZE1uAQIWD1DQhQme5c8jVyzl9yhBk=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$NLSElements
+ .class
+SHA-256-Digest: OKDzBy3Y+nEFa66YzGVbiPW1nar/OSzszDlFTtl4MBw=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/PackageDeclarationImpl.class
+SHA-256-Digest: R7u12jm+0bAsZbWpt9tVflNtim76TwJQEeSmXOZMAfY=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/NLSBundle.class
+SHA-256-Digest: 4/xKRnayBJbbUQVOmPWzYpeAuGeVqvfS8cIpLP3i9z4=
+
+Name: org/eclipse/fx/ide/l10n/parser/antlr/NLSDslParser.class
+SHA-256-Digest: 9CWTE+eeY2h+7oBOa6jx9UBsgXTuCrhl25Sd8yU9nF8=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/NLSFormatterImpl.class
+SHA-256-Digest: QQyrIl7QGwH88CuGq30XxqNcfqVyYaQweWxfz3EXOPY=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$9.class
+SHA-256-Digest: M9N1PCwwHZvn/tMElRu4MMq8ueTe6tBQYaSpk1CcfdU=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$22.class
+SHA-256-Digest: hXxgsfx/g64uK5EZAbgMtTKvFHACLE80G7HYk/S6Hqw=
+
+Name: org/eclipse/fx/ide/l10n/formatting/NLSDslFormatter.xtend
+SHA-256-Digest: /zi1RT0F/fEdJkUhA+4YsHa69HJn3pYs25bN+suu7ss=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/NLSFormatter.class
+SHA-256-Digest: kfa5Nsx857MWZnuPtPrmLpmqYovqF7dFClMJxlDvZx8=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/RichStringImpl.class
+SHA-256-Digest: Tf/sYmdtNJd1wiaEvNFkVw43BGC3YfS1AIlHczh3L5U=
+
+Name: org/eclipse/fx/ide/l10n/parser/antlr/internal/InternalNLSDslPars
+ er.class
+SHA-256-Digest: SA/XtMwXjtELhPtpOBAm+nGceOjy91xuS9jo+YTdalc=
+
+Name: about.html
+SHA-256-Digest: 1fuYr0bu6NsJZCAmSom5QtnvnV0Cg8DwLn77Dd1Ql24=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$10.class
+SHA-256-Digest: L4jSGqsIdotvR+MH4NJ2whtFxgHKzm8RnjVmJi8HgOU=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/Message.class
+SHA-256-Digest: dgZUIH8ltHHNXBmsrxv4UmbfNPPeSzy9mI5E+ozWwR4=
+
+Name: org/eclipse/fx/ide/l10n/parser/antlr/internal/InternalNLSDsl.g
+SHA-256-Digest: P7AroUytSWuDSGDuESr9Oe41+LRoH7u7jY7v6gn17qc=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$3.class
+SHA-256-Digest: woAF+pr19fxoNomUj2PgO989R/LECOuyZYt7lPvQNXA=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$RichStringE
+ lements.class
+SHA-256-Digest: hUkIVYHCFYFO5POfky9W/jRBgWHCmDaYixybTS1CsA0=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$27.class
+SHA-256-Digest: NWte773DZRKw4dQtIMoDNipsy/P5eUohQRTUkoe7qE0=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/MessageEntryImpl.class
+SHA-256-Digest: kHvtnjajA+6A7Q0eWoIL4JzjngcpBRtR8chB6jOiZ3s=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$MessagePara
+ mElements.class
+SHA-256-Digest: gyE7IfbGjuI1/M2FjrRzy/iF6eqScmJtlr+JEuKBCh0=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/util/NLSDslSwitch.class
+SHA-256-Digest: sPkvj6GFr/eib2BPTMWbiYpZbtYTA7f85VrQ/79QuQA=
+
+Name: org/eclipse/fx/ide/l10n/validation/NLSDslValidator.xtend
+SHA-256-Digest: cx2MR5ben0chnGEM2MwPKzfm9nhqRAXzfCqGrdFdNqo=
+
+Name: org/eclipse/fx/ide/l10n/services/NLSDslGrammarAccess$NLSFormatte
+ rElements.class
+SHA-256-Digest: c2A9xKBaoihpHN+oHYU4h7R0fbdQvvT43lfuJvLqzx4=
+
+Name: org/eclipse/fx/ide/l10n/nLSDsl/impl/MessageParamImpl.class
+SHA-256-Digest: YZH/HiAevQcTvOszr3cWZqULeq11+hHAj5PvXhboAi0=
+
+Name: org/eclipse/fx/ide/l10n/NLSDslStandaloneSetup.class
+SHA-256-Digest: 9nDoC2NVWZWdeUUnNHNn+wG5yMrN6XDbJeOykhsG5Jw=
+
+Name: org/eclipse/fx/ide/l10n/generator/NLSDslGenerator$21.class
+SHA-256-Digest: CDguk8O2cC28jQitSV5yM46ysJKsESglmPkk/2SmEOg=
+

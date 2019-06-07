@@ -1,0 +1,9 @@
+EXPORTS
+    Agent_OnLoad @1
+    Agent_OnUnload @2
+    DllMain @3
+    MethodEntry @4
+    MethodExit @5
+    onJVMExited @6
+    onJVMInitialized @7
+    onJVMStarted @8

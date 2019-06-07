@@ -1,0 +1,30 @@
+!SESSION 2019-03-23 00:43:28.224 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_201
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_FR
+Framework arguments:  -application SimpleVersoParser.verso-parser
+Command-line arguments:  -application SimpleVersoParser.verso-parser -data C:\Users\Dorian\Documents\master/runtime-SimpleVersoParser.verso-parser -dev file:C:/Users/Dorian/Documents/master/.metadata/.plugins/org.eclipse.pde.core/SimpleVersoParser.verso-parser/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 4 0 2019-03-23 00:43:29.397
+!MESSAGE Application error
+!STACK 1
+java.util.NoSuchElementException
+	at java.util.HashMap$HashIterator.nextNode(Unknown Source)
+	at java.util.HashMap$ValueIterator.next(Unknown Source)
+	at verso.saving.csv.CsvWriter.printPackages(CsvWriter.java:62)
+	at verso.saving.csv.CsvWriter.print(CsvWriter.java:43)
+	at verso.parser.ParserAppli.start(ParserAppli.java:38)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:199)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:391)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:246)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:659)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:595)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1501)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1474)

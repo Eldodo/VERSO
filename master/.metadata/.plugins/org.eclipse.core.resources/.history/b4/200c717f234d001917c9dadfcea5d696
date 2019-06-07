@@ -1,0 +1,83 @@
+package verso.parser;
+
+import java.io.File;
+
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.equinox.app.IApplication;
+import org.eclipse.equinox.app.IApplicationContext;
+import org.eclipse.jdt.core.IJavaModel;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+
+import verso.model.SystemDef;
+import verso.model.SystemManager;
+import verso.saving.csv.CsvWriter;
+
+
+
+
+//import verso.model.SystemDef;
+
+public class ParserAppli implements IApplication{
+	
+	public Object start(IApplicationContext iac)
+	{
+		System.out.println("start");
+		/*
+		String[] args = (String[]) iac.getArguments().get(
+        "application.args");
+		*/
+		String projectName = "OCLRuler";
+		//creating the model from the AST
+		System.out.println("ici :"+SystemManager.getSystem(projectName));
+		buildModel(projectName);
+		//computing Metrics
+		new File("C:\\Users\\vandammd\\Documents\\git\\verso\\verso\\data\\Data_VERSO_HEB\\"+projectName+"\\").mkdir();
+		CsvWriter cw = new CsvWriter(SystemManager.getSystem(projectName),"C:\\Users\\vandammd\\Documents\\git\\verso\\verso\\data\\Data_VERSO_HEB\\"+projectName+"\\"+projectName+".verso");
+		cw.print();
+		return EXIT_OK;
+	}
+	
+	public void stop()
+	{
+		System.out.println("done");
+	}
+	
+	public void buildModelVersion(long version,SystemDef sys,String project)
+	{
+		IWorkspaceRoot workspace = ResourcesPlugin.getWorkspace().getRoot();
+		IJavaModel model = JavaCore.create(workspace);
+		System.out.println(project);
+		Builder builder = new Builder(workspace);
+		IJavaProject pro = model.getJavaProject(project);
+		
+		try{
+			pro.open(null);
+		}catch(Exception e){e.printStackTrace();}
+		
+		//System.out.println("carotte" + pro);
+		builder.buildVersion(version,sys, pro);
+	}
+	
+	public void buildModel(String project)
+	{
+		//TODO add comments about this section
+		IWorkspaceRoot workspace = ResourcesPlugin.getWorkspace().getRoot();
+		System.out.println("ParserAppli.buildModel()");
+		System.out.println(workspace.getLocation());
+		IJavaModel model = JavaCore.create(workspace);
+		System.out.println(workspace.getProjects(0).length);
+		Builder builder = new Builder(workspace);
+		IJavaProject pro = model.getJavaProject(project);
+		
+		try{
+			pro.open(null);
+		}catch(Exception e){e.printStackTrace();}
+		
+		//System.out.println("carotte" + pro);
+		builder.build(pro);
+	}
+	
+	
+}

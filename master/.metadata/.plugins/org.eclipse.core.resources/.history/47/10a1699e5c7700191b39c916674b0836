@@ -1,0 +1,58 @@
+package verso.traces;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javafx.stage.Stage;
+import verso.representation.cubeLandscape.representationModel.SystemRepresentation;
+
+public class TracesUtil {
+	
+	public static void createHeatMap(File tracesFile, Stage stage, Map<String, SystemRepresentation> sysreps) {
+		Map<String, Integer> tracesMap = new HashMap<String,Integer>();
+		
+		if(tracesFile != null) {
+			BufferedReader br = null;
+			try {
+				br = new BufferedReader(new FileReader(tracesFile));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String st; 
+			 try {
+				while ((st = br.readLine()) != null) {
+					st = st.replaceAll("[^a-zA-Z/:]", "");
+					st = st.replaceAll("[/]", ".");
+					String[] tokens = st.split(":");
+					if(tokens[0].equals("Enter")) {
+						if(tracesMap.get(tokens[1])!=null)
+							tracesMap.put(tokens[1], tracesMap.get(tokens[1]).intValue()+1);
+						else
+							tracesMap.put(tokens[1], 1);
+					}
+				}
+				int max = 0;
+				for(String s : tracesMap.keySet()) {
+					if(tracesMap.get(s)>max)
+						max = tracesMap.get(s);
+				}
+				for(String s : tracesMap.keySet()) {
+					tracesMap.put(s, tracesMap.get(s)*255/max);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			for(String s : sysreps.keySet()) {
+				sysreps.get(s).setNumberOfCalls(tracesMap);
+			}
+		}
+	}
+
+}

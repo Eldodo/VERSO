@@ -1,0 +1,829 @@
+package verso;
+
+import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+import java.util.logging.Logger;
+
+import javax.swing.SwingUtilities;
+
+import ca.umontreal.iro.utils.Config;
+import ca.umontreal.iro.utils.VersoCommandLine;
+import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.SwingNode;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import verso.graphics.primitives.Cube;
+import verso.graphics.primitives.CubeNoCapColored;
+import verso.graphics.primitives.CylinderNoCapColored;
+import verso.graphics.primitives.PrimitiveColored;
+import verso.model.Package;
+import verso.model.SystemDef;
+import verso.representation.cubeLandscape.SceneLandscape;
+import verso.representation.cubeLandscape.Layout.LinkAndNodeLayout;
+import verso.representation.cubeLandscape.Layout.TreeMapPierreLayout;
+import verso.representation.cubeLandscape.Layout.TreemapLayout;
+import verso.representation.cubeLandscape.Layout.TreemapLinkAndNodeLayout;
+import verso.representation.cubeLandscape.Layout.radial.ColiseumLayout;
+import verso.representation.cubeLandscape.Layout.radial.ColiseumLinkAndNodeLayout;
+import verso.representation.cubeLandscape.Layout.radial.RadialLayout;
+import verso.representation.cubeLandscape.linkInterface.DirectLinksControlPanel;
+import verso.representation.cubeLandscape.linkInterface.EdgeBundlesControlPanel;
+import verso.representation.cubeLandscape.linkInterface.LinksVisualizationMainInterface;
+import verso.representation.cubeLandscape.linkInterface.NodesControlPanel;
+import verso.representation.cubeLandscape.linkInterface.SysRepControlPanel;
+import verso.representation.cubeLandscape.modelVisitor.CubeLandScapeVisitor;
+import verso.representation.cubeLandscape.representationModel.ColiseumPackageRepresentation;
+import verso.representation.cubeLandscape.representationModel.PackageRepresentation;
+import verso.representation.cubeLandscape.representationModel.SystemRepresentation;
+import verso.representation.cubeLandscape.representationModel.TreemapPackageRepresentation;
+import verso.representation.cubeLandscape.representationModel.link.NodeRepresentation;
+import verso.representation.cubeLandscape.representationModel.radial.RadialPackageRepresentation;
+import verso.representation.cubeLandscape.representationModel.repvisitor.MappingVisitor;
+import verso.saving.csv.CsvParser2;
+import verso.view.FilterView;
+import verso.view.helper.MenuHelper;
+import verso.traces.TracesUtil;
+//TODO
+//******NOTES*******
+/* - globalement il faut dissocier modele et affichage 3d, notamment les classes SystemRepresentation et sceneLandscape ont l'air d'avoir des fonctions similaires et 
+* et mÈlange modele et representation e.g le boolÈen displayLink est prÈsent dans les deux classes mais seul celui de la classes SystemRepresentation semble
+* avoir un effet.
+* - Il faut enlever les composants graphiques provenant de swing
+* - le nommage est assez confus, le sens des mots n'est pas toujours le mÍme
+* - le handler pour un clique souris dans SceneLandscape fait 400 lignes, surement moyen de le dÈcouper
+* - parfois les interfaces sont construites "‡ la main", parfois avec un XML, parfois un mÈlange des deux... il faut homogÈnÈiser...
+* ==> pour refactorer tout Áa, le plus simple serait sans doute de modeler et coder une base saine uniquement en JavaFX, et d'y 
+* rÈimplanter les algos utilisÈs dans cette version, et les autres Èventuellement.
+*/
+public class Main extends Application {
+	public static Logger LOG = Logger.getLogger(Main.class.getSimpleName());
+
+	static File dataFolder ;
+	static File versoFilePath ;
+	public static File sourceFolder;
+	
+	static boolean FORCE_LAYOUT = false;
+	
+	private HashMap<String, SystemRepresentation> sysreps;
+	
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		Config.loadThemAll(System.getProperty("java.util.logging.config.file"));//load config file given in parameter
+		
+		SystemDef sysDef = null;
+		try {
+			System.out.println("Loading: '" + versoFilePath+"'");
+			sysDef = CsvParser2.parseFile(versoFilePath);
+		} catch (Exception e) {
+			System.out.println("No system loaded.\nExit.");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		sysDef.addConceptsToClasses();//Read IRFilter to affect concepts to each class
+		
+		float levelHeigt = 4.0f;
+		float updatePackageHeight = 1.0f;
+		List<PackageRepresentation> packageRepresentations = new ArrayList<>(3);
+		
+		
+		//******************
+		SystemRepresentation treemapSysRep = (SystemRepresentation)sysDef.accept(new CubeLandScapeVisitor());
+		TreemapPackageRepresentation pRootTreemap = treeMapLayouting(treemapSysRep);
+		TreemapLinkAndNodeLayout tempTreemapNodeLayout = new TreemapLinkAndNodeLayout();
+		layoutInitialization(treemapSysRep, pRootTreemap, levelHeigt, updatePackageHeight, tempTreemapNodeLayout);
+		packageRepresentations.add(pRootTreemap);
+		
+		//*******************
+//		SystemRepresentation radialSysRep = (SystemRepresentation)sysDef.accept(new CubeLandScapeVisitor());
+//		RadialPackageRepresentation pRootRadial = radialLayouting(RadialPackageRepresentation.BORDERS_SIZE,  radialSysRep);
+//		RadialLinkAndNodeLayout tempRadialNodeLayout = new RadialLinkAndNodeLayout();
+//		layoutInitialization(radialSysRep, pRootRadial, 5.0f, updatePackageHeight, tempRadialNodeLayout);
+//		packageRepresentations.add(pRootRadial);
+		
+		//*******************
+		SystemRepresentation coliseumSysRep = (SystemRepresentation)sysDef.accept(new CubeLandScapeVisitor());
+		ColiseumPackageRepresentation pRootColiseum = coliseumLayouting(RadialPackageRepresentation.BORDERS_SIZE, coliseumSysRep);
+		ColiseumLinkAndNodeLayout tempColiseumNodeLayout = new ColiseumLinkAndNodeLayout();
+		layoutInitialization(coliseumSysRep, pRootColiseum, 4.0f, Config.coliseumLevelHeight, tempColiseumNodeLayout);
+		packageRepresentations.add(pRootColiseum);
+		
+		
+		// *** Scene ***
+		SceneLandscape sc = new SceneLandscape(treemapSysRep);
+		sc.setCurrentRoot(pRootTreemap);
+		sc.setPreliminaryMapping();
+//		sc.setHouariMapping();
+		MappingVisitor mpVisitor = sc.getMaplst().get("mvQuality");
+		for (PackageRepresentation packageRepresentation : packageRepresentations) 
+			packageRepresentation.accept(mpVisitor);
+		sc.setDisplayLinks(true);
+		
+
+		//*********************
+		treemapSysRep.addLinksTable(tempTreemapNodeLayout.createLinksTable(treemapSysRep));
+		treemapSysRep.addParentLinksTable(tempTreemapNodeLayout.createParentLinksTable(treemapSysRep));
+		HashMap<String, HashMap<String, Integer[]>> stringLinksTable = buildStringLinksTable(treemapSysRep);
+		HashMap<String, HashMap<String, Integer[]>> stringParentLinksTable = buildStringParentLinkTable(treemapSysRep);
+		linkin(treemapSysRep,
+				Config.linkMesh[Config.LAYOUTS.treemap.ordinal()], Config.linkStartColor, Config.linkEndColor, Config.linkBidirectionalColor, Config.nbreSides, Config.straightenControlPoints, Config.degree, Config.nbreSegments, Config.removeLCA,
+				stringLinksTable,
+				stringParentLinksTable);
+		
+		
+		
+		//*********************
+//		radialSysRep.addLinksTable(tempRadialNodeLayout.createLinksTable(radialSysRep));
+//		radialSysRep.addParentLinksTable(tempRadialNodeLayout.createParentLinksTable(radialSysRep));
+//		stringLinksTable = buildStringLinksTable(radialSysRep);
+//		stringParentLinksTable = buildStringParentLinkTable(radialSysRep);
+//		linkin(radialSysRep,
+//				Config.linkMesh[Config.LAYOUTS.radial.ordinal()], Config.linkStartColor, Config.linkEndColor, Config.linkBidirectionalColor, Config.nbreSides, Config.straightenControlPoints, Config.degree, Config.nbreSegments, Config.removeLCA,
+//				stringLinksTable,
+//				stringParentLinksTable);
+		
+		//*********************
+		coliseumSysRep.addLinksTable(tempColiseumNodeLayout.createLinksTable(coliseumSysRep));
+		coliseumSysRep.addParentLinksTable(tempColiseumNodeLayout.createParentLinksTable(coliseumSysRep));
+		stringLinksTable = buildStringLinksTable(coliseumSysRep);
+		stringParentLinksTable = buildStringParentLinkTable(coliseumSysRep);
+		linkin(coliseumSysRep,
+				Config.linkMesh[Config.LAYOUTS.coliseum.ordinal()], Config.linkStartColor, Config.linkEndColor, Config.linkBidirectionalColor, Config.nbreSides, Config.straightenControlPoints, Config.degree, Config.nbreSegments, Config.removeLCA, 
+				stringLinksTable,
+				stringParentLinksTable);
+		
+		//******************************
+		treemapSysRep.updateNodesAndLinksDisplayed("Treemap System");
+//		radialSysRep.updateNodesAndLinksDisplayed("Radial System");
+		coliseumSysRep.updateNodesAndLinksDisplayed("Coliseum System");
+		//******************************
+		
+		sysreps = new HashMap<String, SystemRepresentation>();
+		sysreps.put("Treemap System", treemapSysRep);
+//		sysreps.put("Radial System", radialSysRep);
+		sysreps.put("Coliseum System", coliseumSysRep);
+
+		putOnUI(primaryStage, sysreps, "Treemap System", sc);
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		
+		System.out.println("Welcome to   -Verso-");
+		System.out.println("java.library.path: "+System.getProperty("java.library.path"));
+		System.out.println("java.util.logging.config.file: "+System.getProperty("java.util.logging.config.file"));
+		
+		System.loadLibrary("jogl");
+		
+		VersoCommandLine vComdLine = new VersoCommandLine(args);//Load the parameters given  
+		
+		String objectName = vComdLine.getSoftware();
+		dataFolder = Paths.get(vComdLine.getMiscFolder(), objectName).toFile();
+		versoFilePath = Paths.get(dataFolder.getAbsolutePath(), objectName + ".verso").toFile();
+		
+		sourceFolder = new File(dataFolder.getAbsolutePath()+"\\..\\..\\Source_projects\\"+objectName+"-src");
+	    System.out.println(sourceFolder.getAbsolutePath());
+		
+		
+		
+		
+		
+		FORCE_LAYOUT = vComdLine.getForceLayout();
+
+		
+		launch(args);
+	}
+	
+	
+	
+
+	private static void layoutInitialization(SystemRepresentation sysRep, PackageRepresentation rootPackageRepresentation, float levelHeigt, float updatePackageHeight, LinkAndNodeLayout tempTreemapNodeLayout) {
+		sysRep.clearPackages();
+		sysRep.addPackage(rootPackageRepresentation);
+//		treemapSysRep.linkAndNodeLayoutin(tempTreemapNodeLayout);
+		sysRep.addPackagesNodes(tempTreemapNodeLayout.createPackagesNodes(sysRep, sysRep.getLevelHeight(), Config.packageNodeMesh, Config.packageNodeSize, Config.packageNodeColor));
+		sysRep.addElementsNodes(tempTreemapNodeLayout.createElementsNodes(sysRep, sysRep.getLevelHeight(), Config.elementNodeMesh, Config.elementNodeSize, Config.elementNodeColor));
+		sysRep.setLevelHeight(levelHeigt);
+		sysRep.updatePackageHeight(updatePackageHeight);
+		sysRep.createEdgeBundlesNodes();
+		sysRep.updateNodesOnPackages();
+		sysRep.updateNodesOverElements();
+	}
+
+	private static HashMap<String, HashMap<String, Integer[]>> buildStringLinksTable(
+			SystemRepresentation sysRep) {
+		HashMap<String, HashMap<String, Integer[]>> stringLinksTable = new HashMap<String, HashMap<String, Integer[]>>();
+		
+		for (NodeRepresentation startNode : sysRep.getLinksTable().keySet()) {//DIFF !
+			String startNodeName = startNode.getEntityRepresentation().getSimpleName();
+			HashMap<String, Integer[]> stringEndNodeLinks = new HashMap<String, Integer[]>();
+			for (NodeRepresentation endNode : sysRep.getLinksTable().get(startNode).keySet()) {
+				String endNodeName = endNode.getEntityRepresentation().getSimpleName();
+				stringEndNodeLinks.put(endNodeName, sysRep.getLinksTable().get(startNode).get(endNode));
+			}
+			
+			stringLinksTable.put(startNodeName, stringEndNodeLinks);
+		}
+		return stringLinksTable;
+	}
+
+	private static HashMap<String, HashMap<String, Integer[]>> buildStringParentLinkTable(
+			SystemRepresentation sysRep) {
+		HashMap<String, HashMap<String, Integer[]>> stringParentLinksTable = new HashMap<String, HashMap<String, Integer[]>>();
+		for (NodeRepresentation startNode : sysRep.getParentLinksTable().keySet()) {//DIFF 
+			String startNodeName = startNode.getEntityRepresentation().getSimpleName();
+			HashMap<String, Integer[]> stringEndNodeLinks = new HashMap<String, Integer[]>();
+			for (NodeRepresentation endNode : sysRep.getParentLinksTable().get(startNode).keySet()) {
+				String endNodeName = endNode.getEntityRepresentation().getSimpleName();
+				stringEndNodeLinks.put(endNodeName, sysRep.getParentLinksTable().get(startNode).get(endNode));
+			}
+			
+			stringParentLinksTable.put(startNodeName, stringEndNodeLinks);
+		}
+		return stringParentLinksTable;
+	}
+
+
+	private static void linkin(SystemRepresentation sysRep, 
+			PrimitiveColored linkMesh, Color linkStart, Color linkEnd, Color linkBidirectional, int nbreSides, boolean straightenControlPoints, int degree, int nbreSegments, boolean removeLCA,
+			HashMap<String, HashMap<String, Integer[]>> stringLinksTable,
+			HashMap<String, HashMap<String, Integer[]>> stringParentLinksTable) {
+		
+		sysRep.setLinksProperties(linkMesh, linkStart, linkEnd, linkBidirectional, nbreSides, straightenControlPoints, degree, nbreSegments, removeLCA);
+		
+		long beforeNbreMS = System.currentTimeMillis();
+		HashMap<String, NodeRepresentation> nodesByName = fillNodesByNameMap(sysRep);
+		
+		HashMap<NodeRepresentation, HashMap<NodeRepresentation, Integer[]>> linksTable = convertStringLinkTableToMap(
+				stringLinksTable, nodesByName);
+		HashMap<NodeRepresentation, HashMap<NodeRepresentation, Integer[]>> parentLinksTable = convertStringLinkTableToMap(
+				stringParentLinksTable, nodesByName);		
+		
+		sysRep.addLinksTable(linksTable);
+		sysRep.addParentLinksTable(parentLinksTable);
+		
+		long afterNbreMS = System.currentTimeMillis();
+		System.out.println("("+sysRep.getPackageRepresentationClass().getSimpleName()+") Temps pour cr√©er les tables de liens (en ms): " + (afterNbreMS - beforeNbreMS));
+
+		sysRep.updateMaxNbreLinks();
+	}
+
+
+
+	private static TreemapPackageRepresentation treeMapLayouting(SystemRepresentation treemapSysRep) {
+		TreemapPackageRepresentation pRootTreemap = new TreemapPackageRepresentation(new Package("root"));
+		for (PackageRepresentation pr : treemapSysRep.getPackages()) {
+			pRootTreemap.addPackage(TreemapPackageRepresentation.convertToTreemapPackRep(pr));
+		}
+		System.out.println("Treemap: Nombre de classes:    " + pRootTreemap.countDescendantClasses());
+		System.out.println("Treemap: Nombre de paquetages: " + pRootTreemap.countDescendantPackages());
+		System.out.println("Treemap: Nombre de niveau:     " + pRootTreemap.computeMaxLevel());
+		System.out.println("Treemap: Niveau du paquetage:  " + pRootTreemap.computePackageLevel());
+		// Part added for Viasco should be removed when using something else.
+		// PAY ATTENTION I'M PUTTING VIASCO LAYOUT 2 NOW
+		{
+//			TreeMapViascoLayout2 v2 = new TreeMapViascoLayout2();
+//			TreeMapViascoLayout v1 = new TreeMapViascoLayout();
+			TreeMapPierreLayout pL = new TreeMapPierreLayout();
+			// TreemapLayout tml = new TreemapLayout();
+			pRootTreemap = pL.layout(pRootTreemap);
+			// pRootTreemap = v2.layout(pRootTreemap);
+		}
+
+		//Calcul le layout pour la visualisation de type PaddedTreemap
+		//*********************************************
+		boolean treemapBestLayout = true;
+		
+		TreemapLayout layout = new TreemapLayout();
+		
+		pRootTreemap.computePackageLevel();
+		
+		TreemapPackageRepresentation.maxPacLevel = pRootTreemap.computeMaxLevel();
+		
+		treemapSysRep.stepHeight = 0.5f;
+		treemapSysRep.paddingSize = 1;
+		
+		if (!treemapBestLayout) {
+			layout.paddedLayout(pRootTreemap, treemapSysRep.paddingSize, TreemapPackageRepresentation.VERTICAL,
+					TreemapPackageRepresentation.LEFT, TreemapPackageRepresentation.UP);
+		} else {
+			try {
+				File solutionFile = Paths.get(dataFolder.getAbsolutePath(),"PaddedTreemap.layout").toFile();
+				System.out.println("Main.treeMapLayouting(solutionFile:"+solutionFile.exists()+")");
+				if (!FORCE_LAYOUT && solutionFile.exists()) {
+					parseLayoutFileTreemap(treemapSysRep, pRootTreemap, layout, solutionFile);
+				}
+				else {
+					int treemapKmax = 50;
+					float treemapTemp = 3000.0f;
+					float treemapAlpha = 0.99f;
+					float treemapTempTreshold = 1.0f;
+					
+					HashMap<TreemapPackageRepresentation, LinkedList<TreemapPackageRepresentation>> solution = 
+							layout.computeBestLayout(pRootTreemap, treemapSysRep.paddingSize, TreemapPackageRepresentation.VERTICAL, TreemapPackageRepresentation.LEFT, TreemapPackageRepresentation.UP, treemapKmax, treemapTemp, treemapAlpha, treemapTempTreshold);
+					writeSolutionFileTreemap(solutionFile, solution);
+				}
+			}
+			catch (IOException ioe) {
+				ioe.printStackTrace();
+//				System.out.println(ioe.toString());
+			}
+		}
+		
+		pRootTreemap.computeAbsolutePosition(0, 0);
+		pRootTreemap.setColor(new Color(0.9f, 0.9f, 0.9f));
+		//*********************************************
+		return pRootTreemap;
+	}
+
+	private static void writeSolutionFileTreemap(File solutionFile, HashMap<TreemapPackageRepresentation, LinkedList<TreemapPackageRepresentation>> solution)
+			throws IOException {
+		solutionFile.createNewFile();
+		BufferedWriter bw = new BufferedWriter(new FileWriter(solutionFile));
+		for (TreemapPackageRepresentation pack : solution.keySet()) {
+			bw.write(pack.getSimpleName() + ";");
+			for (TreemapPackageRepresentation listPack : solution.get(pack)) {
+				bw.write(listPack.getSimpleName() + ";");
+			}
+			bw.newLine();
+		}
+		bw.flush();
+		bw.close();
+	}
+
+	private static void parseLayoutFileTreemap(SystemRepresentation treemapSysRep, TreemapPackageRepresentation pRootTreemap, TreemapLayout layout, File solutionFile)
+			throws FileNotFoundException, IOException {
+		System.out.println("Layout file: "+solutionFile.getAbsolutePath());
+		HashMap<TreemapPackageRepresentation, LinkedList<TreemapPackageRepresentation>> solution = new HashMap<TreemapPackageRepresentation, LinkedList<TreemapPackageRepresentation>>();
+		HashMap<String, PackageRepresentation> allPackages = pRootTreemap.getAllPackages();
+		BufferedReader br = new BufferedReader(new FileReader(solutionFile));
+		String solutionLine;
+		
+		LinkedList<TreemapPackageRepresentation> currList;
+		while ((solutionLine = br.readLine()) != null) {
+			String[] solutionElements = solutionLine.split(";");
+			currList = new LinkedList<TreemapPackageRepresentation>();
+			
+			for (int i = 1; i < solutionElements.length; i++) {
+				PackageRepresentation pToAdd = allPackages.get(solutionElements[i]);
+				if(pToAdd != null)
+					currList.add((TreemapPackageRepresentation)pToAdd);
+				else
+					LOG.warning("Package '"+solutionElements[i]+"' skiped.");
+			}
+			
+			solution.put((TreemapPackageRepresentation)allPackages.get(solutionElements[0]), currList);
+		}
+		br.close();
+		layout.paddedLayout(pRootTreemap, solution, treemapSysRep.paddingSize, TreemapPackageRepresentation.VERTICAL, TreemapPackageRepresentation.LEFT, TreemapPackageRepresentation.UP);
+	}
+
+	private static ColiseumPackageRepresentation coliseumLayouting(float bordersSize, SystemRepresentation coliseumSysRep) {
+		Vector<Double> center = new Vector<Double>(3);
+		center.add(0.0);
+		center.add(0.0);
+		center.add(0.0);
+
+		ColiseumPackageRepresentation pRootColiseum = new ColiseumPackageRepresentation(
+				new Package("root"), new Cube(), new Cube(), bordersSize, Color.green, Color.black, 0.0f, 360.0f, 0.0f, 0.0f, 0.0f, 0.0f, center, null);
+		for (PackageRepresentation pr : coliseumSysRep.getPackages()) {
+			pRootColiseum.addPackage(ColiseumPackageRepresentation.convertToColiseumPackRep(pr,
+					pRootColiseum.getLeftSideMesh(), pRootColiseum.getRightSideMesh(), pRootColiseum.getBordersSize(),
+					pRootColiseum.getPackageMeshColor(), pRootColiseum.getBordersColor(),
+					pRootColiseum.getLayoutInternRadius(), pRootColiseum.getCenter()));
+		}	
+
+		
+
+		//Calcul du layout pour la visualisation de type "Colis√©"
+		//******************************		
+		boolean coliseumBestLayout = true;
+		float classesWidth2 = 1.0f;
+		float levelHeight = 2.0f;
+		float coliseumPackageWidth = 2.0f;
+		int coliseumNbreOfRows = 7;
+		float coliseumSpacesSize = 1.0f;
+		
+		ColiseumLayout cLayout = new ColiseumLayout();
+		
+		pRootColiseum.computePackageLevel();
+		
+		if (!coliseumBestLayout) {
+			cLayout.layout(pRootColiseum, classesWidth2, coliseumPackageWidth, levelHeight, coliseumNbreOfRows, coliseumSpacesSize);
+		}
+		else {
+			try {
+				File solutionFile = Paths.get(dataFolder.getAbsolutePath(),"Coliseum.layout").toFile();
+				if (!FORCE_LAYOUT && solutionFile.exists()) {
+					parseSolutionFileColiseum(pRootColiseum, classesWidth2, levelHeight, coliseumPackageWidth, coliseumNbreOfRows, coliseumSpacesSize,
+							cLayout, solutionFile);
+				}
+				else {
+					int coliseumKmax = 50;
+					float coliseumTemp = 3000.0f;
+					float coliseumAlpha = 0.99f;
+					float coliseumTempTreshold = 1.0f;
+					HashMap<ColiseumPackageRepresentation, LinkedList<ColiseumPackageRepresentation>> solution = cLayout.computeBestLayout(pRootColiseum, classesWidth2, coliseumPackageWidth, levelHeight, coliseumNbreOfRows, coliseumSpacesSize, coliseumKmax, coliseumTemp, coliseumAlpha, coliseumTempTreshold);
+					writeLayoutFileColiseum(solutionFile, solution);
+				}
+				
+				System.out.println("Rayon intern du colis√©e: " + pRootColiseum.getLayoutInternRadius());
+			}
+			catch (IOException ioe) {
+				System.out.println(ioe.toString());
+			}
+		}
+		//******************************
+		return pRootColiseum;
+	}
+
+	private static void writeLayoutFileColiseum(File solutionFile, HashMap<ColiseumPackageRepresentation, LinkedList<ColiseumPackageRepresentation>> solution)
+			throws IOException {
+		solutionFile.createNewFile();
+		BufferedWriter bw = new BufferedWriter(new FileWriter(solutionFile));
+		for (ColiseumPackageRepresentation pack : solution.keySet()) {
+			bw.write(pack.getSimpleName() + ";");
+			for (ColiseumPackageRepresentation listPack : solution.get(pack)) {
+				bw.write(listPack.getSimpleName() + ";");
+			}
+			bw.newLine();
+		}
+		bw.flush();
+		bw.close();
+	}
+
+	private static void parseSolutionFileColiseum(ColiseumPackageRepresentation pRootColiseum, float classesWidth2, float levelHeight, float coliseumPackageWidth, int coliseumNbreOfRows, float coliseumSpacesSize, ColiseumLayout cLayout, File solutionFile)
+			throws FileNotFoundException, IOException {
+		System.out.println("Layout file: "+solutionFile.getAbsolutePath());
+		HashMap<ColiseumPackageRepresentation, LinkedList<ColiseumPackageRepresentation>> solution = new HashMap<ColiseumPackageRepresentation, LinkedList<ColiseumPackageRepresentation>>();
+		HashMap<String, PackageRepresentation> allPackages = pRootColiseum.getAllPackages();
+		BufferedReader br = new BufferedReader(new FileReader(solutionFile));
+		String solutionLine;
+		String[] solutionElements;
+		LinkedList<ColiseumPackageRepresentation> currList;
+		
+		while ((solutionLine = br.readLine()) != null) {
+			solutionElements = solutionLine.split(";");
+			currList = new LinkedList<ColiseumPackageRepresentation>();
+			
+			for (int i = 1; i < solutionElements.length; i++) {
+				PackageRepresentation pToAdd = allPackages.get(solutionElements[i]);
+				if(pToAdd != null)
+					currList.add((ColiseumPackageRepresentation)pToAdd);
+				else
+					LOG.warning("Package '"+solutionElements[i]+"' skiped.");
+
+//							currList.add((ColiseumPackageRepresentation)allPackages.get(solutionElements[i]));
+			}
+			
+			solution.put((ColiseumPackageRepresentation)allPackages.get(solutionElements[0]), currList);
+		}
+		br.close();
+		
+		cLayout.layout(pRootColiseum, solution, classesWidth2, coliseumPackageWidth, levelHeight, coliseumNbreOfRows, coliseumSpacesSize);
+	}
+
+	private static RadialPackageRepresentation radialLayouting(float bordersSize, SystemRepresentation radialSysRep) {
+		Vector<Double> center = new Vector<Double>(3);
+		center.add(0.0);
+		center.add(0.0);
+		center.add(0.0);
+		
+		RadialPackageRepresentation   pRootRadial   = new RadialPackageRepresentation  (new Package("root"), new Cube(), new Cube(), bordersSize, Color.green, Color.black, 0.0f, 360.0f, 0.0f, 0.0f, 0.0f, center, null);
+		for (PackageRepresentation pr : radialSysRep.getPackages()) {
+			pRootRadial.addPackage(RadialPackageRepresentation.convertToRadialPackRep(pr, pRootRadial.getLeftSideMesh(),
+					pRootRadial.getRightSideMesh(), pRootRadial.getBordersSize(), pRootRadial.getPackageMeshColor(),
+					pRootRadial.getBordersColor(), pRootRadial.getLayoutInternRadius(), pRootRadial.getCenter()));
+		}
+		System.out.println("Radial: Nombre de classes:     " + pRootRadial.countDescendantClasses());
+		System.out.println("Radial: Nombre de paquetages:  " + pRootRadial.countDescendantPackages());
+		System.out.println("Radial: Nombre de niveau:      " + pRootRadial.computeMaxLevel());
+		System.out.println("Radial: Niveau du paquetage:   " + pRootRadial.computePackageLevel());
+		
+		
+		
+
+		//Calcul du layout pour la visualisation de type Radial
+		//******************************		
+		boolean radialBestLayout = true;
+		
+		float radialPackageWidth = 2.0f;
+		float classesWidth = 1.0f;
+		int radialNbreOfRows = 10;
+		float radialSpacesSize = 1.0f;
+		
+		RadialLayout rLayout = new RadialLayout();
+		
+		pRootRadial.computePackageLevel();
+		
+		if (!radialBestLayout) {
+			rLayout.layout(pRootRadial, classesWidth, radialPackageWidth, radialNbreOfRows, radialSpacesSize);
+		}
+		else {
+			try {
+				File solutionFile = Paths.get(dataFolder.getAbsolutePath(),"Radial.layout").toFile();
+				if (!FORCE_LAYOUT && solutionFile.exists()) {
+					System.out.println("Layout file: "+solutionFile.getAbsolutePath());
+					HashMap<RadialPackageRepresentation, LinkedList<RadialPackageRepresentation>> solution = new HashMap<RadialPackageRepresentation, LinkedList<RadialPackageRepresentation>>();
+					HashMap<String, PackageRepresentation> allPackages = pRootRadial.getAllPackages();
+					BufferedReader br = new BufferedReader(new FileReader(solutionFile));
+					String solutionLine;
+					String[] solutionElements;
+					LinkedList<RadialPackageRepresentation> currList;
+					
+					while ((solutionLine = br.readLine()) != null) {
+						solutionElements = solutionLine.split(";");
+						currList = new LinkedList<RadialPackageRepresentation>();
+						
+						for (int i = 1; i < solutionElements.length; i++) {
+							currList.add((RadialPackageRepresentation)allPackages.get(solutionElements[i]));
+						}
+						
+						solution.put((RadialPackageRepresentation)allPackages.get(solutionElements[0]), currList);
+					}
+					br.close();
+					rLayout.layout(pRootRadial, solution, classesWidth, radialPackageWidth, radialNbreOfRows, radialSpacesSize);
+				}
+				else {
+					int radialKmax = 250;
+					float radialTemp = 200000.0f;
+					float radialAlpha = 0.99f;
+					float radialTempTreshold = 1.0f;
+					
+					HashMap<RadialPackageRepresentation, LinkedList<RadialPackageRepresentation>> solution = rLayout.computeBestLayout(pRootRadial, classesWidth, radialPackageWidth, radialNbreOfRows, radialSpacesSize, radialKmax, radialTemp, radialAlpha, radialTempTreshold);
+		
+					solutionFile.createNewFile();
+					
+					BufferedWriter bw = new BufferedWriter(new FileWriter(solutionFile));
+					
+					for (RadialPackageRepresentation pack : solution.keySet()) {
+						bw.write(pack.getSimpleName() + ";");
+						
+						for (RadialPackageRepresentation listPack : solution.get(pack)) {
+							bw.write(listPack.getSimpleName() + ";");
+						}
+						
+						bw.newLine();
+					}
+					
+					bw.flush();
+					bw.close();
+				}
+				
+				System.out.println("Rayon intern du radial: " + pRootRadial.getLayoutInternRadius());
+			}
+			catch (IOException ioe) {
+				System.out.println(ioe.toString());
+			}
+		}
+		//******************************
+		return pRootRadial;
+	}
+
+	
+	private static HashMap<NodeRepresentation, HashMap<NodeRepresentation, Integer[]>> convertStringLinkTableToMap(
+			HashMap<String, HashMap<String, Integer[]>> stringLinksTable,
+			HashMap<String, NodeRepresentation> nodesByName) {
+		HashMap<NodeRepresentation, HashMap<NodeRepresentation, Integer[]>> treemapLinksTable = new HashMap<NodeRepresentation, HashMap<NodeRepresentation, Integer[]>>();
+		for (String startName : stringLinksTable.keySet()) {
+			NodeRepresentation startNode = nodesByName.get(startName);
+	
+			HashMap<NodeRepresentation, Integer[]> endNodeLinks = new HashMap<NodeRepresentation, Integer[]>();
+			for (String endName : stringLinksTable.get(startName).keySet()) {
+				NodeRepresentation endNode = nodesByName.get(endName);
+				endNodeLinks.put(endNode, stringLinksTable.get(startName).get(endName));
+			}
+			treemapLinksTable.put(startNode, endNodeLinks);
+		}
+		return treemapLinksTable;
+	}
+
+	private static HashMap<String, NodeRepresentation> fillNodesByNameMap(SystemRepresentation treemapSysRep) {
+		HashMap<String, NodeRepresentation> nodesByName = new HashMap<String, NodeRepresentation>();
+		for (NodeRepresentation node : treemapSysRep.getPackagesNodes()) {
+			nodesByName.put(node.getEntityRepresentation().getSimpleName(), node);
+		}
+		for (NodeRepresentation node : treemapSysRep.getElementsNodes()) {
+			nodesByName.put(node.getEntityRepresentation().getSimpleName(), node);
+		}
+		return nodesByName;
+	}
+
+	private static boolean showControlPanel = false;
+	
+	private @FXML MenuBar menuBar;
+	private @FXML BorderPane filterPane, versoPane;
+	private @FXML ToggleButton classTargetFilter, noneTargetFilter, packageTargetFilter, methodTargetFilter;
+	
+	private void putOnUI(Stage primaryStage, HashMap<String, SystemRepresentation> sysreps, String chosenSysRep, SceneLandscape sc) {
+		try{
+			FXMLLoader loader = new FXMLLoader(Main.class.getResource("Main.fxml"));
+		
+	        loader.setController(this);
+	        BorderPane root = loader.load();
+	        primaryStage.setTitle("Verso");
+	        
+	        final SwingNode swingNode = new SwingNode();
+	        createAndSetSwingContent(swingNode, sc);
+	        versoPane.setCenter(swingNode);
+	        primaryStage.setScene(new Scene(root));
+	        initMenu(primaryStage);
+	        
+            filterPane.setCenter(new FilterView(sc));
+	        primaryStage.setWidth(1200);
+            primaryStage.show();
+			
+            ToggleGroup toggleGroup = new ToggleGroup();
+            classTargetFilter.setToggleGroup(toggleGroup);
+            noneTargetFilter.setToggleGroup(toggleGroup);
+            packageTargetFilter.setToggleGroup(toggleGroup);
+            methodTargetFilter.setToggleGroup(toggleGroup);
+            
+            noneTargetFilter.setSelected(true);
+            
+            
+            
+			
+			/*JFrame jf = new JFrame();
+			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			jf.setPreferredSize(new Dimension(1000,1000));
+			jf.setSize(new Dimension(1200,900));
+			setMenu(jf);
+			jf.add(sc.getContainer());
+			jf.setVisible(true);
+			jf.addWindowListener(sc.new CloseListener());*/
+			
+			SystemRepresentation chosenToStartApp = sysreps.get(chosenSysRep);
+			
+			NodesControlPanel nodesControlPanel= new NodesControlPanel(sc, chosenToStartApp);
+			
+			HashMap<String, SysRepControlPanel> linksTypeControlPanels = new HashMap<String, SysRepControlPanel>();
+			
+			HashMap<String, PrimitiveColored> directLinksMeshes = new HashMap<String, PrimitiveColored>();
+			directLinksMeshes.put("Lignes", null);
+			directLinksMeshes.put("Cube sans cap", new CubeNoCapColored(null, null));
+			directLinksMeshes.put("Cylindre sans cap", new CylinderNoCapColored(null, null, 8));
+			
+			HashMap<String, PrimitiveColored> hierarchicalLinksMeshes = new HashMap<String, PrimitiveColored>();
+			hierarchicalLinksMeshes.put("Cube sans cap", new CubeNoCapColored(null, null));
+			hierarchicalLinksMeshes.put("Cylindre sans cap", new CylinderNoCapColored(null, null, 16));
+			
+			linksTypeControlPanels.put("Liens directs", new DirectLinksControlPanel(sc, chosenToStartApp, directLinksMeshes));
+			linksTypeControlPanels.put("Edge Bundles", new EdgeBundlesControlPanel(sc, chosenToStartApp, directLinksMeshes));
+	//		linksTypeControlPanels.put("Liens hi√©rarchiques", new HierarchicalLinksControlPanel(sc, chosenToStartApp, hierarchicalLinksMeshes));
+			
+			
+			//System.out.println("SysReps size: " + sysreps.size());
+			
+			
+			LinksVisualizationMainInterface lvmi = new LinksVisualizationMainInterface(sc, sysreps, chosenToStartApp, nodesControlPanel, linksTypeControlPanels);
+			//lvmi.setVisible(true);
+			
+			classTargetFilter.selectedProperty().addListener(new ChangeListener<Boolean>(){
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					if(arg2) {
+						System.out.println("class");
+						sc.targetClassFilter();
+					}
+					classTargetFilter.setDisable(arg2);
+				}
+            });
+            
+            noneTargetFilter.selectedProperty().addListener(new ChangeListener<Boolean>(){
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					if(arg2) {
+						System.out.println("none");
+						sc.noTargetFilter();
+					}
+					noneTargetFilter.setDisable(arg2);
+				}
+            });
+            
+            packageTargetFilter.selectedProperty().addListener(new ChangeListener<Boolean>(){
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					if(arg2) {
+						System.out.println("package");
+						sc.targetPackageFilter();
+					}
+					packageTargetFilter.setDisable(arg2);
+				}
+            });
+            
+            methodTargetFilter.selectedProperty().addListener(new ChangeListener<Boolean>(){
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					if(arg2) {
+						System.out.println("method");
+						sc.targetMethodFilter();
+					}
+					methodTargetFilter.setDisable(arg2);
+				}
+            });
+		}
+		catch(Exception e) {e.printStackTrace();}
+	}
+	
+	
+	private static void createAndSetSwingContent(final SwingNode swingNode, SceneLandscape sc) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                swingNode.setContent(sc.getContainer());
+            }
+        });
+    }
+
+	public static File getFirstVersoFileInFolder(File f) {
+		File fi = null;
+		
+		try {
+			fi = f.listFiles(new FileFilter() {
+				@Override
+				public boolean accept(File pathname) {
+					return pathname.getName().toLowerCase().endsWith(".verso");
+				}
+			})[0];
+		} catch (Exception e) {	}
+		return fi;
+	}
+	
+	
+	
+	private void initMenu(Stage stage) {
+		menuBar.getMenus().clear();
+		Menu file = new Menu("Fichier");
+		MenuItem addTracesFile = new MenuItem("Ajouter un fichier de traces");
+		file.getItems().addAll(addTracesFile);
+		Menu menuHelp = new Menu("Aide");
+		MenuItem subMenuCommands = new MenuItem("Commandes");
+		menuHelp.getItems().addAll(subMenuCommands);
+	    menuBar.getMenus().addAll(file,menuHelp);
+	    
+	    subMenuCommands.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+				MenuHelper cmdHelper = new MenuHelper("Commands");
+			    FXMLLoader loader = new FXMLLoader();
+			    loader.setLocation(MenuHelper.class.getResource("MenuHelper.fxml"));
+			    loader.setController(cmdHelper);
+		        Scene scene = new Scene(loader.load(), 400, 400);
+		        Stage stage = new Stage();
+		        stage.setTitle("Aide - Commandes");
+		        stage.setScene(scene);
+		        stage.show();
+				}
+				catch(Exception e) {e.printStackTrace();}
+			}
+	    });
+		
+	    addTracesFile.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				TracesUtil.createHeatMap(stage, sysreps);
+			}
+	    	
+	    });
+	    
+		
+	}
+	
+	
+
+
+
+
+
+
+}

@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?metadataRepository version='1.2.0'?>
+<repository name='update site: file:/C:/Users/Dorian/Downloads/org.eclipse.core.tools_1.4.0/plugins/' type='org.eclipse.equinox.internal.p2.metadata.repository.LocalMetadataRepository' version='1.0.0'>
+  <properties size='2'>
+    <property name='p2.timestamp' value='1559836207539'/>
+    <property name='site.checksum' value='0'/>
+  </properties>
+</repository>

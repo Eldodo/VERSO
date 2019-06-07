@@ -1,0 +1,40 @@
+# depslib dependency file v1.0
+1446671344 source:c:\users\dorian\documents\master\exectracerwin\main.cpp
+	"main.h"
+
+1446671344 c:\users\dorian\documents\master\exectracerwin\main.h
+	<windows.h>
+
+1552933771 source:c:\users\dorian\documents\master\exectracerwin\io.c
+	<stdio.h>
+	"io.h"
+
+1552933764 c:\users\dorian\documents\master\exectracerwin\io.h
+	"common.h"
+
+1552693355 c:\users\dorian\documents\master\exectracerwin\common.h
+	<jvmti.h>
+
+1518125461 c:\program files\java\jdk1.8.0_161\include\jvmti.h
+	"jni.h"
+
+1518125461 c:\program files\java\jdk1.8.0_161\include\jni.h
+	<stdio.h>
+	<stdarg.h>
+	"jni_md.h"
+
+1518125461 c:\program files\java\jdk1.8.0_161\include\win32\jni_md.h
+
+1553311004 source:c:\users\dorian\documents\master\exectracerwin\tracemethods.c
+	<sys/time.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"common.h"
+	"io.h"
+	"traceMethods.h"
+
+1553050696 c:\users\dorian\documents\master\exectracerwin\tracemethods.h
+	<windows.h>
+	<string.h>
+
