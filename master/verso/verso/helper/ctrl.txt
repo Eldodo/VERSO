@@ -1,0 +1,3 @@
+CONTROL HELPER
+
+CTRL + souris : Déplacement du logiciel visualisé dans le sens du déplacement de la souris. (Attention celui-ci est très sensible).

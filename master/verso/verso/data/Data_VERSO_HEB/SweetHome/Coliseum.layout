@@ -1,0 +1,14 @@
+root;SweetHome;
+SweetHome.com.eteks.sweethome3d.tools;
+SweetHome;SweetHome.com;SweetHome.libraries;
+SweetHome.com.eteks.sweethome3d.swing;
+SweetHome.com.eteks.sweethome3d.applet;
+SweetHome.com.eteks.sweethome3d.j3d;
+SweetHome.com.eteks.sweethome3d.plugin;
+SweetHome.com.eteks.sweethome3d;SweetHome.com.eteks.sweethome3d.tools;SweetHome.com.eteks.sweethome3d.model;SweetHome.com.eteks.sweethome3d.swing;SweetHome.com.eteks.sweethome3d.viewcontroller;SweetHome.com.eteks.sweethome3d.io;SweetHome.com.eteks.sweethome3d.applet;SweetHome.com.eteks.sweethome3d.j3d;SweetHome.com.eteks.sweethome3d.plugin;
+SweetHome.libraries;
+SweetHome.com.eteks;SweetHome.com.eteks.sweethome3d;
+SweetHome.com;SweetHome.com.eteks;
+SweetHome.com.eteks.sweethome3d.viewcontroller;
+SweetHome.com.eteks.sweethome3d.model;
+SweetHome.com.eteks.sweethome3d.io;

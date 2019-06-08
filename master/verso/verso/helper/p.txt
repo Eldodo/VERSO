@@ -1,0 +1,3 @@
+P HELPER
+
+Désactive la possibilité de filter les éléments. Rend le verso statique à sa position ou P est préssé. La visualisation est bloquée et ne peut plus être modifiée.

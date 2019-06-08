@@ -1,0 +1,23 @@
+A 	: Affiche ou masque les liens.
+
+Alt 	: Permet lorsque vous cliquez sur une classe d'afficher le code de cette derniere dans un editeur de texte Java.
+
+ARROWS 	: Permet de se déplacer.
+
+SHIFT + ARROWS : Permet d'effectuer une rotation.
+
+B 	: Masque tous les éléments représentés. Masque toutes les classes et interfaces. Cependant les liens restent présents et on ne voit que les packages.
+
+C 	: Est sensé retiré le highlight de tous les éléments sélectionnés pour revenir à la situation de départ mais n'a pas l'air de fonctionner
+
+P 	: Désactive la possibilité de filter les éléments. Rend le verso statique à sa position ou P est préssé. La visualisation est bloquée et ne peut plus être modifiée.
+
+Q 	: A définir.
+
+R 	: Fais tourner la représentation du logiciel comme une petite girouette.
+
+V 	: Doit mettre à jour le filtrage en fonction du rectangle de sélection mais ceci se fait déjà automatiquement donc V ne semble plus utile.
+
+X 	: ..
+
+Z 	: ..

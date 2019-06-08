@@ -1,0 +1,387 @@
+@startuml 
+skinparam classAttributeIconSize 0
+class Concept {
++Concept(name: Stringec: EClassifier) 
++Concept(name: String) 
++putAttribute(name: Stringsource: Concepttype: Conceptmultiplicity: SlotMultiplicity): boolean
++putAttribute(name: Stringatt: Attribute): boolean
++putReference(name: Stringsource: Conceptrclass: Conceptmultiplicity: SlotMultiplicity): boolean
++putReference(name: Stringr: Reference): boolean
++hasSuper(c: Concept): boolean
++instanceOf(cType: Concept): boolean
++isTypeOf(cType: Concept): boolean
++isNumeric(): boolean
++isBoolean(): boolean
++toString(): String
++prettyPrint(tab: String): String
++simplePrint(): String
++equals(o: Object): boolean
++reinitializeInstantiablePatternList(): void
++ {static}reinitializeInstanciablePatternList(): void
+-packageName: String = Optional.empty
+}
+
+class Evaluator {
++Evaluator(ms: ExampleSet) 
++evaluate(e: GeneticIndividual): FitnessVector
++evaluate(e: GeneticIndividualforce: boolean): FitnessVector
++ {static}dichoSplit(c: Collection<T>max_size: int): ArrayList<Collection<T>>
++evaluateMultiThread(e: GeneticIndividual): FitnessVector
++evaluateMonoThread(e: GeneticIndividual): FitnessVector
++ {static}loadConfig(): void
+evaluationTime: long = Optional[0]
++ {static}MAX_EXEC_PER_THREAD: int = Optional[3]
++ {static}MULTI_THREAD: boolean = Optional[true]
+}
+
+class EvaluatorOCL {
++EvaluatorOCL(ms: ExampleSet) 
++ {static}execute(fm2: FireMapm: Modelprg: Program): FireMap
++ {static}diagnose(m: Modelprg: Program): HashMap<oclruler.rule.struct.Constraint, ArrayList<String>>
++ {static}check(p: oclruler.rule.struct.Constraint): OCLExpression<EClassifier>
++ {static}check(p: Pattern): OCLExpression<EClassifier>
++ {static}check(prg: Program): ArrayList<OCLExpression<EClassifier>>
+ {static}loop: int = Optional[1]
+}
+
+class Evolutioner {
++Evolutioner(eva: Evaluatorp: PopulationresultFile: FiledataResultFile: File) 
++Evolutioner(eva: Evaluatorp: Population) 
++evolutionate(): Population
++evolutionate(pop: Population): Population
++geneticReproduction(G0: PopulationmutationGeneration: int): int
++isReproductionMoldingWind(G0: PopulationmoldingLoops_number: int): int
++injectPositiveExample(): void
++injectNegativeExample(): void
++injectExample(): void
++injectExample(type: INJECTION_TYPE): void
++endCondition(objValues: float[]): boolean
++ {static}loadConfig(): void
++ {static}logG_OnFile(bw: BufferedWritergeneration: inttimeSpent: longmaxE: GeneticIndividualavgGenes: float): void
++ {static}logOnFile(bw: BufferedWriterlog: String): void
++buildFiles(): File[]
++printResult(): void
++storeGeneralLogInFile(timeSpent: Stringp: Population): void
++storeGeneralLogInFile(timeSpent: Stringp: PopulationresultFile: File): void
++hasStopped(): boolean
++togglePause(): void
++isPause(): boolean
+- {static}USE_SOLUTION_DIRECTORY: boolean = Optional[false]
++ {static}STATIONARY_TIME: int = Optional[10]
++ {static}STATIONARY_VARIANCE: float = Optional[0.001f]
+- {static}ROULETTE_GEOMETRIC: boolean = Optional[false]
++ {static}GENERATION_MAX: int = Optional[1]
++ {static}CHECK_POINT_GENERATION: int = Optional[100]
++ {static}CHECK_RESULT_IN_UI: int = Optional[5]
++ {static}MAX_TIME: long = Optional[5 * 60 * 1000]
++ {static}STEP_BY_STEP: boolean = Optional[false]
++ {static}GENERATIONS_STEP: int = Optional[0]
++ {static}END_CONDITION_TYPE: String = Optional["and"]
++ {static}OBJECTIVES_END_CONDITION: float = Optional.empty
++generation: int = Optional[0]
+startTime: long = Optional.empty
+-avgGenes: float = Optional.empty
+logFileName: String = Optional.empty
+logDataFileName: String = Optional.empty
+runs: boolean = Optional[false]
+pause: boolean = Optional[false]
+-bufAvgs: float = Optional[new float[FitnessV...
+-bufTime: int = Optional[-1]
+}
+
+class ExampleSet {
++ {static}loadConfig(): void
++ {static}newInstance(): ExampleSet
++ExampleSet() 
++ExampleSet(directory: File) 
++loadExamplesFromDirectory(directory: File): ArrayList<Model>
++ExampleSet(directory: FilefileNames: Collection<String>) 
++ExampleSet(fileNames: Collection<String>) 
++ {static}loadNewRandomXMIModel(): Model
++ {static}loadModel(filename: String): Model
++isOraculized(): boolean
++size(): int
++sizeAll(): int
++injectPositiveExample(): Model
++injectNegativeExample(): Model
++injectionPossible(): boolean
++injectionPositivePossible(): boolean
++injectionNegativePossible(): boolean
++ {static}sortModelListByModelValidity(models: ArrayList<Model>): void
++ {static}sortModelListByModelName(models: ArrayList<Model>): void
++ {static}sortModelListByModelValidity(models: Model[]): void
++addModel(m: Model): boolean
++toString(): String
++prettyPrint(): String
++clone(): ExampleSet
++printOracleDecisions(): String
++reloadExamples(): void
++copyExamplesTo(res: File): void
++ {static}nullify(): void
++ {static}unleashConsideredExamples(): void
++refinedSize(): int
++ {static}NEGATIVES_CONSIDERED: int = Optional[Integer.MAX_VALUE]
++ {static}POSITIVES_CONSIDERED: int = Optional[Integer.MAX_VALUE]
+ {static}number_of_modelsset: int = Optional[0]
+number: int = Optional.empty
+oraculized: boolean = Optional[false]
+coverage: double = Optional[{ -1.0f, -1.0f, -1...
+refinedSize: int = Optional[-1]
+}
+
+class FitnessVector {
++ {static}loadConfig(): void
+-FitnessVector() 
++FitnessVector(prg: Program) 
++addFire(m: Modelp: Constraint): void
++ {static}computeSizeValue(numberOfRules: intnumberOfLeaves: int): float
++dominates(vv: FitnessVector): boolean
++clone(): Object
++update(): void
++prettyPrint(): String
++printFires(m: Model): String
++printFires(m: ModelprintAffectedEObject: boolean): String
++printExpandedStat(): String
++printCSVStat(): String
++toString(): String
+ {static}COMPARE_LEAVES: boolean = Optional[true]
+ABSOLUTE_SIZE_THRESHOLD: int = Optional[2]
+TFIDF_NORMALIZE: float = Optional[10]
++ {static}EXPECTED_NUMBER_OF_RULES: int = Optional[new int[] { 10, 20...
++ {static}NUMBER_OF_OBJECTIVES: int = Optional[3]
++ {static}OBJECTIVES_CONSIDERED: int = Optional[3]
++ {static}OBJECTIVE_SIGMA: double = Optional[new double[] { 0.0...
++ {static}OBJECTIVE_SIGMA_DEFAULT: double = Optional[0.0001]
++ {static}csvHeader: String = Optional["%POS;%NEG;%SIZ;#R...
+-values: float = Optional.empty
+-programSize: int = Optional[-1]
+-programLeaves: int = Optional[-1]
+-modified: boolean = Optional[true]
+pp: int = Optional[0]
+np: int = Optional[0]
+pn: int = Optional[0]
+nn: int = Optional[0]
+}
+
+interface Gene << interface >> {
++ {abstract}clone(): Object
++ {abstract}mutate(): boolean
++ {abstract}size(): int
++ {abstract}prettyPrint(): String
++ {abstract}printResultPane(tab: String): String
++ {abstract}simplePrint(): String
+}
+
+class GeneticIndividual {
++GeneticIndividual() 
++ {abstract}crossover(e: GeneticIndividual): GeneticIndividual[]
++ {abstract}crossoverDeep(e: GeneticIndividual): GeneticIndividual[]
++ {abstract}mutate(): boolean
++ {abstract}size(): int
++ {abstract}prettyPrint(tab: String): String
++ {abstract}simplePrint(tab: String): String
++prettyPrint(): String
++simplePrint(): String
++printNumericResult(separator: StringtimeStamp: StringelapsedTime: StringformatDecimals: boolean): String
++ {static}printResultHeader(separator: String): String
++clearFitnessVector(): void
++hasFitnessVector(): boolean
++ {abstract}addGene(g: Gene): boolean
++compareTo(o: GeneticIndividual): int
++ {abstract}clone(): GeneticIndividual
++dominates(ent2: GeneticIndividual): boolean
++toString(): String
++printStats(): String
++printRank(): String
++printFV(): String
++ {abstract}printResultPane(tab: String): String
++printResultPane(): String
++isModified(): boolean
++isEmpty(): boolean
+distance: double = Optional.empty
+rank: int = Optional.empty
+monoValue: double = Optional[0.0]
+}
+
+class Metamodel {
++ {static}readCovDefinitionFile(covDefFile: File): ArrayList<MMElement>
++ {static}init(): void
++ {static}ePackages(): Set<EPackage>
++ {static}addConcept(e: Concept): Concept
++ {static}addEnum(e: Enum): Enum
++ {static}printJessMetamodel(): String
++ {static}printJessMetamodel(multi: AllMultiSlot): String
++ {static}mapInheritance(resource: Resource): HashMap<String, HashSet<String>>
++ {static}printCoverageDefinition(): String
+- {static}ROOT_CLASS: String = Optional["O"]
+- {static}jessMetamodel: String = Optional.empty
+ {static}jessInheritance: String = Optional.empty
+}
+
+class Model {
+#Model(file: File) 
++hasResource(): boolean
++addEObject(eo: EObject): void
++prettyPrintEObjects(): String
++equals(arg0: Object): boolean
++clone(): Model
++toString(): String
++addOracleFire(pt: Constraintfires: int): void
++clearOracleFire(): void
++isValid(): boolean
++prettyPrint(): String
++loadResource(): void
++unloadResource(): void
++reload(): void
++addOracleFire(fm: FireMap): void
++prettyPrint(tab: String): String
++simplePrint(): String
++rewriteXMI(newXMI: String): boolean
++size(): float
++extractContent(): int
++printFeatures(className: String): String
++ {static}nbModels: int = Optional[0]
+-numberOfOracleFire: int = Optional[0]
+SEPARATOR: String = Optional["."]
+ENUM_SEPARATOR: String = Optional[",,"]
+DIEZ: String = Optional["#"]
+AFFECT: String = Optional[":"]
+elements: ArrayList<String> = Optional.empty
+classes: HashSet<String> = Optional.empty
+resourceFileName: String = Optional.empty
+}
+
+class OCLEvaluator {
++OCLEvaluator() 
++evaluate(mmPath: StringmodelPath: StringoclPath: StringsaveToFile: String): Diagnostic
++createOCLFile(oclPath: Stringsave: File): void
++ {static}main(args: String[]): void
+-packageName: String = Optional.empty
+- {static}valid: boolean = Optional.empty
+}
+
+class Oracle {
++Oracle(ms: ExampleSettextFileName: String) 
++Oracle(ms: ExampleSet) 
++oraculize(): void
++oraculize(forceNewEvaluator: boolean): void
++oraculize(exSet: ExampleSet): void
++oraculize(eva: Evaluator): void
++oraculize(eva: EvaluatorexSet: ExampleSet): void
++ {static}instantiateOracle(ms: ExampleSet): Oracle
+}
+
+class OraculizationException {
++OraculizationException(r: RATIONALE) 
+serialVersionUID: long = Optional[-38044890118376098...
+message: String = Optional.empty
+}
+
+class Population {
++ {static}loadConfig(): void
++Population() 
++orderEntitiesWithMonoValue(): ArrayList<GeneticIndividual>
++addEntity(e: GeneticIndividual): boolean
++removeLastEntity(): GeneticIndividual
++ {static}createRandomPopulation(): Population
++cutPopulationInHalf(): Population
++removeAfterCutpoint(genes: ArrayList<?>cutpoint: int): void
++evaluate(ev: Evaluator): void
++evaluate(ev: Evaluatorforce: boolean): void
++buildMatrice_solution_vs_examples(): double[][]
++clone(): Population
++printStatistics(): String
++printOneLineStatistics(): String
++printStatistics(verbose: boolean): String
++addPareto(p: Pareto): void
++fastNonDominantSort(): ArrayList<Pareto>
++extractFront(entities: ArrayList<GeneticIndividual>frontNb: int): Pareto
++fastNonDominantSort2(): ArrayList<Pareto>
++crowdingDistanceAssignement2(): void
++crowdingDistanceAssignement(): void
++crowdingDistanceAssignement_tfidf(): void
++ {static}crowdingDistance_tfidf(pop: Population): Map<GeneticIndividual, Double>
++printArray(idfi: double[]): String
++sort(obj: int): void
++size(): int
++clean(): void
++toString(): String
++prettyPrint(): String
++writeSolution(solutionDir: File): void
++writeSolution(solutionDir: FilefirstOnly: boolean): void
++ {static}NB_ENTITIES_IN_STAT_PRINTING: int = Optional[0]
++ {static}NB_ENTITIES_IN_POP: int = Optional[0]
++ {static}MUTATE_RATE: double = Optional[0]
++ {static}CROSSING_RATE: double = Optional[0]
++ {static}nbPop: int = Optional[0]
+EMPHASIS_RATE: int = Optional[10]
+number: int = Optional.empty
+solutions_vs_examples: double = Optional.empty
+}
+
+class UnstableStateException {
++UnstableStateException(message: String) 
+}
+
+Concept"1" -- "0..*"Concept
+
+Concept ..> Concept
+
+Evaluator -- Evaluator
+
+EvaluatorOCL --|> Evaluator
+
+Evolutioner -- Evaluator
+
+Evolutioner ..> Evaluator
+
+ExampleSet -- ExampleSet
+
+ExampleSet ..> ExampleSet
+
+FitnessVector ..> FitnessVector
+
+GeneticIndividual ..|> GeneticIndividual
+
+GeneticIndividual -- FitnessVector
+
+GeneticIndividual ..> GeneticIndividual
+
+GeneticIndividual ..> FitnessVector
+
+GeneticIndividual ..> Gene
+
+Metamodel"1" -- "0..*"Concept
+
+Metamodel ..> Concept
+
+Oracle ..> Model
+
+Oracle -- Oracle
+
+Oracle -- ExampleSet
+
+Oracle -- Evaluator
+
+Oracle ..> ExampleSet
+
+Oracle ..> Evaluator
+
+Oracle ..> Oracle
+
+Population"1" -- "0..*"GeneticIndividual
+
+Population"1" -- "0..*"Pareto
+
+Population ..> GeneticIndividual
+
+Population ..> Population
+
+Population ..> Pareto
+
+Population ..> Evaluator
+
+Population ..> Model
+
+hide circle 
+@enduml

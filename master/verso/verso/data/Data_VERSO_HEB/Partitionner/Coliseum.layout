@@ -1,0 +1,11 @@
+partition.ocl.templates;
+genetic.fitness;
+models;
+partition.composition;
+default;
+utils;
+partition.ocl;partition.ocl.templates;
+genetic;genetic.fitness;
+partition;partition.ocl;partition.composition;
+ui;
+root;genetic;models;partition;utils;ui;default;

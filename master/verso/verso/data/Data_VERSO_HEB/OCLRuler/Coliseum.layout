@@ -1,0 +1,17 @@
+root;oclruler;partitioner;default;
+oclruler.a_test;
+default;
+oclruler.metamodel;oclruler.metamodel.ocl;
+oclruler.metrics;oclruler.metrics.tfidfexperiment;
+oclruler;oclruler.utils;oclruler.ui;oclruler.a_test;oclruler.metrics;oclruler.genetics;oclruler.metamodel;oclruler.rule;
+partitioner;partitioner.partition;
+oclruler.metamodel.ocl;
+oclruler.utils;
+oclruler.ui;
+partitioner.partition.composition;
+oclruler.metrics.tfidfexperiment;
+oclruler.rule.struct;
+partitioner.partition;partitioner.partition.composition;
+oclruler.rule;oclruler.rule.patterns;oclruler.rule.struct;
+oclruler.rule.patterns;
+oclruler.genetics;

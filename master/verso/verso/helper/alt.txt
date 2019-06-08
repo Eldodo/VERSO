@@ -1,0 +1,5 @@
+ALT HELPER
+
+L'appuie sur la touche alt de votre clavier permet lorsque vous cliquez sur une classe d'afficher le code de cette derniére dans un éditeur de texte Java.
+
+Pressing the alt key on your keyboard allows you when you click on a class to display the code of the latter in a Java text editor.

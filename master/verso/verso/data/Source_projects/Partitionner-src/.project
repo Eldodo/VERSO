@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>Partitionner</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.emftext.language.csv.resource.csv.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.emftext.language.csv.resource.csv.nature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>metamodels</name>
+			<type>2</type>
+			<location>R:/EclipseWS/metamodels</location>
+		</link>
+		<link>
+			<name>out</name>
+			<type>2</type>
+			<location>R:/EclipseWS/out</location>
+		</link>
+		<link>
+			<name>res</name>
+			<type>2</type>
+			<location>R:/EclipseWS/results</location>
+		</link>
+		<link>
+			<name>tests</name>
+			<type>2</type>
+			<location>R:/EclipseWS/tests</location>
+		</link>
+	</linkedResources>
+</projectDescription>

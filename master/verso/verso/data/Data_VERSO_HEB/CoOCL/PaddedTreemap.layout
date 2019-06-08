@@ -1,0 +1,17 @@
+coocl;coocl.ocl;
+oclruler.leftPack;oclruler.genetics;oclruler.ui;
+oclruler.metamodel;
+oclruler.rightPack;oclruler.metamodel;
+root.leftPack.rightPack;utils;
+root.leftPack;root.leftPack.rightPack;root.leftPack.leftPack;
+root.leftPack.leftPack;default;coocl;
+root;root.rightPack;root.leftPack;
+utils;utils_elements;utils.distance;
+coocl.ocl;
+default;
+utils_elements;
+root.rightPack;oclruler;
+oclruler;oclruler.leftPack;oclruler.rightPack;
+utils.distance;
+oclruler.genetics;
+oclruler.ui;

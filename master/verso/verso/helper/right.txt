@@ -1,0 +1,5 @@
+RIGHT HELPER 
+
+flèche droite : Permet de se déplacer vers la droite.
+
+SHIFT + flèche droite : Permet de faire pivoter le logiciel représenté sur la droite.

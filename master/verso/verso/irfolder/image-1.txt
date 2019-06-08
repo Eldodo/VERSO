@@ -1,0 +1,5 @@
+concept:image;format;video;quality;level;png;create
+SweetHome.com.eteks.sweethome3d.j3d.OBJWriter;;1
+SweetHome.com.eteks.sweethome3d.j3d.OBJWriter#ComparableAppearance;;1
+SweetHome.com.eteks.sweethome3d.swing.PhotoPanel;;1
+SweetHome.com.eteks.sweethome3d.swing.PhotoPanel#LanguageChangeListener;;1

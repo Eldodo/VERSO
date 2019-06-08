@@ -1,0 +1,12 @@
+pobj;pobj.pinboard;
+pobj.pinboard.editor.tools;pobj.pinboard.editor.tools.test;
+root;pobj;
+pobj.pinboard;pobj.pinboard.test;pobj.pinboard.editor;pobj.pinboard.document;
+pobj.pinboard.editor;pobj.pinboard.editor.commands;pobj.pinboard.editor.tools;pobj.pinboard.editor.test;
+pobj.pinboard.editor.test;
+pobj.pinboard.editor.tools.test;
+pobj.pinboard.editor.commands.test;
+pobj.pinboard.document.test;
+pobj.pinboard.editor.commands;pobj.pinboard.editor.commands.test;
+pobj.pinboard.document;pobj.pinboard.document.test;
+pobj.pinboard.test;

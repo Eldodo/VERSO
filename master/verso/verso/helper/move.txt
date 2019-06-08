@@ -1,0 +1,7 @@
+MOVE HELPER
+
+Déplacement sur plan fixe
+Les 4 flèches permettent de se déplacer. Autre manière de se dépacer en utilisant CTRL + souris. Vous vous déplacerez ainsi dans le sens de la souris (mais attention ce déplacement est très sensible).
+
+Rotation du plan
+SHIFT + flèche ou SHIFT + souris permettent de faire pivoter le projet en cours de visualisation. 

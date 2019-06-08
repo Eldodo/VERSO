@@ -1,0 +1,5 @@
+DOWN HELPER 
+
+flèche bas : Permet de se déplacer vers le bas.
+
+SHIFT + flèche bas : Permet de faire pivoter le logiciel représenté vers le bas.

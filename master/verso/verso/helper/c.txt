@@ -1,0 +1,3 @@
+C HELPER
+
+Est sensé retiré le highlight de tous les éléments sélectionnés pour revenir à la situation de départ mais n'a pas l'air de fonctionner

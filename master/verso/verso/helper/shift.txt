@@ -1,0 +1,5 @@
+SHIFT HELPER
+
+SHIFT + souris : Fais pivoter le logiciel en cours de visualisation dans le sens de déplacement de la souris.
+
+SHIFT + flèche : Fais pivoter le logiciel en cours de visualisation dans le sens de déplacement de la flèche.

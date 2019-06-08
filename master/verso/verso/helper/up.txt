@@ -1,0 +1,5 @@
+UP HELPER 
+
+flèche haut : Permet de se déplacer vers le haut.
+
+SHIFT + flèche haut : Permet de faire pivoter le logiciel représenté vers le haut.

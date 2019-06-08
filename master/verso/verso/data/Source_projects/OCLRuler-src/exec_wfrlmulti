@@ -1,0 +1,1 @@
+java -Xmx8g -Xms1024m -Djava.util.logging.config.file=/u/batotedo/git/gitWFR/OCLRuler/lib/logging.batch.properties -jar OCL-R_Multi.jar -cf "configSinbad_Family.properties" -ed "/u/batotedo/EclipseWS/material/OCL_Ruler/experiment/Today_Family2/"

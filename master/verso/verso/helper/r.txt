@@ -1,0 +1,3 @@
+R HELPER
+
+Fais tourner la représentation du logiciel comme une petite girouette.

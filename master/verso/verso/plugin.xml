@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="renderer"
+         name="VersoRenderer"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="singleton-global"
+            thread="main"
+            visible="true">
+         <run
+               class="verso.activator.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         id="versoView"
+         name="versoView"
+         point="org.eclipse.ui.views">
+      <category
+            id="Verso_Java2"
+            name="Sample Category">
+      </category>
+      <view
+            category="Verso_Java2"
+            class="verso.view.SampleView"
+            icon="icons/sample.gif"
+            id="verso.view.SampleView"
+            name="Sample View">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="verso.view.SampleEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            extensions="java"
+            icon="icons/sample.gif"
+            id="verso.versoEditor"
+            name="Sample XML Editor">
+      </editor>
+      <editor
+            class="verso.view.VersoTextEditor"
+            default="false"
+            extensions="java"
+            id="verso.versoTextEditor"
+            name="Super Verso Editeur">
+      </editor>
+      <editor
+            class="verso.view.LineViewerEditor"
+            default="false"
+            id="verso.versoLineEditor"
+            name="name">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
+         <command
+               commandId="Verso_Java2.openVCommand"
+               label="Open Verso"
+               style="push">
+            <visibleWhen
+                  checkEnabled="true">
+               <with
+                     variable="activeMenuSelection">
+                  <iterate>
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="verso.view.OpenVersoHandler"
+            commandId="Verso_Java2.openVCommand">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="Verso_Java2.openVCommand"
+            name="Open Verso Command">
+      </command>
+   </extension>
+
+</plugin>

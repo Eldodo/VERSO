@@ -1,0 +1,3 @@
+B HELPER
+
+Masque tous les éléments représentés. Masque toutes les classes et interfaces. Cependant les liens restent présents et on ne voit que les packages.

@@ -1,0 +1,8 @@
+concept:image;format;path;level;png;create;
+SweetHome.com.eteks.sweethome3d.swing.VideoPanel#ImageSourceStream;;4
+SweetHome.com.eteks.sweethome3d.swing.VideoPanel#LanguageChangeListener;;4
+SweetHome.com.eteks.sweethome3d.swing.VideoPanel#FrameGenerator;;4
+SweetHome.com.eteks.sweethome3d.swing.VideoPanel#PhotoImageGenerator;;4
+SweetHome.com.eteks.sweethome3d.swing.VideoPanel;;4
+SweetHome.com.eteks.sweethome3d.swing.VideoPanel#ImageDataSource;;4
+SweetHome.com.eteks.sweethome3d.swing.VideoPanel#Image3DGenerator;;4

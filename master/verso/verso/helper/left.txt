@@ -1,0 +1,5 @@
+LEFT HELPER 
+
+flèche gauche : Permet de se déplacer vers la gauche.
+
+SHIFT + flèche gauche : Permet de faire pivoter le logiciel représenté sur la gauche.
