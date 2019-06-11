@@ -1,3 +1,7 @@
+//code wrote by https://stackoverflow.com/users/12048/finnw
+//under Creative Common Attribution-ShareAlike 2.5 Generic (CC BY-SA 2.5) 
+//see https://creativecommons.org/licenses/by-sa/2.5/
+
 package verso.traces;
 
 import java.awt.color.ColorSpace;
